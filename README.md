@@ -25,7 +25,7 @@ Once this repo is set up and the workflow has run at least once, install by
 pointing Tampermonkey/Violentmonkey at the raw file:
 
 ```
-https://raw.githubusercontent.com/<your-username>/<your-repo>/main/dist/video-bg-play.user.js
+https://raw.githubusercontent.com/affan2021shaikh/video-bg-play-userscript/main/dist/video-bg-play.user.js
 ```
 
 Most userscript managers support "subscribing" to a raw URL like this and
