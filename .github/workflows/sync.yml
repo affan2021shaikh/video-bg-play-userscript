@@ -35,7 +35,8 @@ jobs:
         run: node scripts/build.js
 
       - name: Add trailing timestamp so the file always changes
-        run: echo "// last checked: $(date -u +%Y-%m-%dT%H:%M:%SZ)" >> dist/video-bg-play.user.js
+        run: |
+          echo "// last checked: $(date -u +%Y-%m-%dT%H:%M:%SZ)" >> dist/video-bg-play.user.js
 
       - name: Commit and push
         run: |
