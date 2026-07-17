@@ -1,0 +1,47 @@
+name: Sync video-bg-play userscript
+
+on:
+  schedule:
+    # Once a month, on the 1st at 00:00 UTC. Note: GitHub auto-disables
+    # scheduled workflows after 60 days with no repository commits. A
+    # monthly cron is under that threshold, but if upstream stays quiet
+    # for 2+ cycles in a row (no commit gets made), the schedule can still
+    # get paused — check the Actions tab occasionally and re-enable if so.
+    - cron: '0 0 1 * *'
+  workflow_dispatch: {}   # allows manual "Run workflow" trigger
+  push:
+    branches: [main]
+    paths:
+      - 'scripts/**'
+
+permissions:
+  contents: write
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Build userscript from upstream
+        run: node scripts/build.js
+
+      - name: Add trailing timestamp so the file always changes
+        run: echo "// last checked: $(date -u +%Y-%m-%dT%H:%M:%SZ)" >> dist/video-bg-play.user.js
+
+      - name: Commit and push
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add dist/video-bg-play.user.js .upstream-sha
+          SHA=$(cat .upstream-sha 2>/dev/null || echo "unknown")
+          git commit -m "sync: check mozilla/video-bg-play@${SHA} ($(date -u +%Y-%m-%d))"
+          git push
