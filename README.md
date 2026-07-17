@@ -14,7 +14,7 @@ Auto-synced Tampermonkey/Violentmonkey userscript, generated from
 - `scripts/build.js` — fetches the latest source + LICENSE from
   `mozilla/video-bg-play@master`, runs it through `build-lib.js`, and writes
   `dist/video-bg-play.user.js`.
-- `.github/workflows/sync.yml` — runs the build every 6 hours (and on manual
+- `.github/workflows/sync.yml` — runs the build every 1 month (and on manual
   dispatch, and on pushes to `scripts/**`), compares the upstream commit SHA
   against the last-recorded one in `.upstream-sha`, and commits
   `dist/video-bg-play.user.js` only if upstream actually changed.
